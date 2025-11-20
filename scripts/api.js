@@ -27,3 +27,5 @@ export async function generateResponse(userInput, language) {
 
   return response.output_text
 }
+
+// TODO: add DALLE-3 to generate image for hero

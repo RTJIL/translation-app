@@ -1,3 +1,23 @@
+/* === CONFIG === */
+
+@font-face {
+  font-family: "Font Awesome 6 Free"; /* Make sure this matches the family name in the CDN file */
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap; /* <--- THE MAGIC SAUCE */
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/webfonts/fa-solid-900.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/webfonts/fa-brands-400.woff2")
+    format("woff2");
+}
+
 /* === RESET === */
 
 * {
@@ -139,16 +159,16 @@ body.dark {
 
 /* Header */
 .hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
-
-  background-image: url("/assets/worldmap.png");
+  background-image: url("/worldmap.png");
   background-size: auto;
   background-position: 40% -100%;
   background-repeat: no-repeat;
   min-height: 220px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 
   background-color: #0f192c;
   color: var(--primary-100);

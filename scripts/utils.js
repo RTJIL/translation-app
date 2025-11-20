@@ -12,24 +12,39 @@ export function renderForm(main) {
             name="user-input"
             id="user-input"
             class="textarea"></textarea>
-          <button type="submit" class="btn" disabled><i class="fa-regular fa-paper-plane"></i></button> 
+          <button type="submit" class="btn" aria-label="Send" disabled><i class="fa-regular fa-paper-plane"></i></button> 
         </div>
 
         <fieldset>
           <legend class="sr-only">Select a language</legend>
           <label for="fr" class="radio-select" aria-label="French">
             <input type="radio" id="fr" name="language" value="fr" />
-            <img src="/assets/fr-flag.png" alt="France flag" />
+            <img 
+              src="/fr-flag.png" 
+              srcset="/fr-flag.png 1x, /fr-flag@2x.png 2x"
+              width="50"
+              alt="France flag" 
+            />
           </label>
 
           <label for="es" class="radio-select" aria-label="Spanish">
             <input type="radio" id="es" name="language" value="es" />
-            <img src="/assets/sp-flag.png" alt="Spain flag" />
+            <img 
+              src="/sp-flag.png" 
+              alt="Spain flag" 
+              srcset="/sp-flag.png 1x, /sp-flag@2x.png 2x"
+              width="50"
+            />
           </label>
 
           <label for="jp" class="radio-select" aria-label="Japanese">
             <input type="radio" id="jp" name="language" value="jp" />
-            <img src="/assets/jpn-flag.png" alt="Japan flag" />
+            <img 
+              src="/jpn-flag.png" 
+              alt="Japan flag" 
+              srcset="/jpn-flag.png 1x, /jpn-flag@2x.png 2x"
+              width="50"
+            />
           </label>
         </fieldset>
 
@@ -102,7 +117,7 @@ export function eventListeners() {
       })
     },
 
-    rebuildUI(state) {
+    rebuildUI(state = false) {
       isLoading = state
       changeDisabled()
     },
@@ -110,3 +125,6 @@ export function eventListeners() {
 }
 
 // XTODO: remake interface to be like chat app
+// TODO: scroll to bottom when new message is added
+// TODO: find out how to self host fonts
+// TODO: LCP request discovery
