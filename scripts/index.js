@@ -28,12 +28,16 @@ document.addEventListener("click", async (event) => {
   renderLoading(messages, userInput, userMessageId, assistantMessageId)
   focusTextarea()
 
+  listeners.rebuildUI(true)
+
   try {
     const response = await generateResponse(userInput, language)
     renderResult(response, assistantMessageId)
   } catch (error) {
     renderError(assistantMessageId, error)
     console.error(error)
+  } finally {
+    listeners.rebuildUI(false)
   }
 })
 

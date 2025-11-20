@@ -79,6 +79,7 @@ export function renderError(assistantMessageId, error) {
 // check if textarea is empty and is any radio button checked
 export function eventListeners() {
   let initialized = false
+  let isLoading = false
 
   function changeDisabled() {
     const textarea = document.querySelector("textarea")
@@ -87,7 +88,7 @@ export function eventListeners() {
     if (!textarea || !button) return
 
     const isChecked = !!document.querySelector('input[name="language"]:checked')
-    button.disabled = textarea.value.trim() === "" || !isChecked
+    button.disabled = textarea.value.trim() === "" || !isChecked || isLoading
   }
 
   return {
@@ -95,13 +96,14 @@ export function eventListeners() {
       if (initialized) return
       initialized = true
 
-      const events = ["input", "change", "submit"]
+      const events = ["input", "change"]
       events.forEach((event) => {
         document.body.addEventListener(event, changeDisabled)
       })
     },
 
-    rebuildUI() {
+    rebuildUI(state) {
+      isLoading = state
       changeDisabled()
     },
   }
