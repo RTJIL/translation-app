@@ -1,78 +1,77 @@
 // === RENDER ===
 export function renderForm(main) {
-  main.innerHTML = `
-    <form action="" class="main__content" id="translator-form">
-        <label for="user-input" class="description">Text to translate👇️</label>
-        <textarea
-          type="text"
-          placeholder="How are you?"
-          name="user-input"
-          id="user-input"
-          class="textarea"
-        ></textarea>
+  main.insertAdjacentHTML(
+    "beforeend",
+    `
+      <form action="" class="main__form" id="translator-form">
+        <div class="textarea-wrapper">
+          <label for="user-input" class="description sr-only">Text to translate</label>
+          <textarea
+            type="text"
+            placeholder="How are you?"
+            name="user-input"
+            id="user-input"
+            class="textarea"></textarea>
+          <button type="submit" class="btn" disabled><i class="fa-regular fa-paper-plane"></i></button> 
+        </div>
 
         <fieldset>
-          <legend class="description">Select language👇️</legend>
-
-          <label for="fr" class="radio-select">
+          <legend class="sr-only">Select a language</legend>
+          <label for="fr" class="radio-select" aria-label="French">
             <input type="radio" id="fr" name="language" value="fr" />
-            <span class="checkmark"></span>
-            <p>French</p>
             <img src="/assets/fr-flag.png" alt="France flag" />
           </label>
 
-          <label for="es" class="radio-select">
+          <label for="es" class="radio-select" aria-label="Spanish">
             <input type="radio" id="es" name="language" value="es" />
-            <span class="checkmark"></span>
-            <p>Spanish</p>
             <img src="/assets/sp-flag.png" alt="Spain flag" />
           </label>
 
-          <label for="jp" class="radio-select">
+          <label for="jp" class="radio-select" aria-label="Japanese">
             <input type="radio" id="jp" name="language" value="jp" />
-            <span class="checkmark"></span>
-            <p>Japanese</p>
             <img src="/assets/jpn-flag.png" alt="Japan flag" />
           </label>
         </fieldset>
 
-        <button type="submit" class="btn" disabled>Translate</button>
       </form>
     `
+  )
 }
 
-export function renderResult(main, userInput, response) {
-  main.innerHTML = `
-    <section class="main__content">
-      <h2 class="description">Original text👇</h2>
-      <p class="textarea" id="request"></p>
+export function renderResult(response, assistantMessageId) {
+  const responseText = document.querySelector("#response-" + assistantMessageId)
 
-      <h2 class="description">Your translation👇</h2>
-      <p class="textarea" id="response"></p>
-      
-      <button type="reset" class="btn">Translate again</button>
-    </section>`
-
-  const requestText = document.querySelector("#request")
-  const responseText = document.querySelector("#response")
-
-  requestText.textContent = userInput
+  responseText.classList.remove("loading")
   responseText.textContent = response
 }
 
-export function renderLoading(main) {
-  main.innerHTML = `
-    <section class="main__content">
-      <div class="spinner"></div>
-    </section>`
+export function renderLoading(
+  messages,
+  userInput,
+  userMessageId,
+  assistantMessageId
+) {
+  messages.insertAdjacentHTML(
+    "beforeend",
+    `
+      <p class="message user" id="request-${userMessageId}"></p>
+      <p class="message system loading" id="response-${assistantMessageId}"></p>
+    `
+  )
+
+  const requestText = messages.querySelector(`#request-${userMessageId}`)
+  requestText.textContent = userInput
 }
 
-export function renderError(main, error) {
-  main.innerHTML = `
-    <section class="main__content">
-      <h2 class="error">OH NO! ${error} 
-      😭</h2>
-    </section>`
+export function renderError(assistantMessageId, error) {
+  const assistantMessage = document.getElementById(
+    `response-${assistantMessageId}`
+  )
+
+  assistantMessage.classList.remove("loading")
+  assistantMessage.classList.add("error")
+
+  assistantMessage.textContent = `OH NO! ${error}😭`
 }
 
 // === EVENT LISTENERS ===
@@ -96,14 +95,16 @@ export function eventListeners() {
       if (initialized) return
       initialized = true
 
-      const events = ["input", "change"]
+      const events = ["input", "change", "submit"]
       events.forEach((event) => {
         document.body.addEventListener(event, changeDisabled)
       })
     },
+
+    rebuildUI() {
+      changeDisabled()
+    },
   }
 }
 
-// XTODO: implement loading
-// XTODO: connect to OpenAI API
-// TODO: remake interface to be like chat app
+// XTODO: remake interface to be like chat app
